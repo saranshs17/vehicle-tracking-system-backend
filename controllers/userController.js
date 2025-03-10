@@ -72,3 +72,13 @@ exports.requestDriver = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+exports.updateToken = async (req, res) => {
+  const { token } = req.body; // The new FCM token coming from the client app.
+  try {
+    const user = await User.findByIdAndUpdate(req.user.id, { fcmToken: token }, { new: true });
+    res.json({ message: "FCM token updated successfully.", user });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};

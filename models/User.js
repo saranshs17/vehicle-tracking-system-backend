@@ -9,6 +9,7 @@ const UserSchema = new mongoose.Schema(
     password: { type: String, required: true },
     phone: { type: String, required: true },
     photo: { type: String },
+    fcmToken: { type: String, default: "" }
   },
   { timestamps: true }
 );
