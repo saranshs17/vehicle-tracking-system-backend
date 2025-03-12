@@ -14,5 +14,7 @@ router.put('/profile', authMiddleware.verifyToken, userController.updateProfile)
 router.post('/request', authMiddleware.verifyToken, userController.requestDriver);
 // New endpoint to update FCM token.
 router.put('/updateToken', authMiddleware.verifyToken, userController.updateToken);
+// GET user details by user ID
+router.get('/:id', userController.getUserById);
 
 module.exports = router;

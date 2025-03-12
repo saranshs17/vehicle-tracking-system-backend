@@ -31,7 +31,7 @@ exports.login = async (req, res) => {
     if (!isMatch) return res.status(400).json({ message: 'Invalid credentials.' });
     
     const token = jwt.sign({ id: user._id, role: 'user' }, process.env.JWT_SECRET, { expiresIn: '1d' });
-    res.json({ token });
+    res.json({ token, userId: user._id });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -78,6 +78,19 @@ exports.updateToken = async (req, res) => {
   try {
     const user = await User.findByIdAndUpdate(req.user.id, { fcmToken: token }, { new: true });
     res.json({ message: "FCM token updated successfully.", user });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+exports.getUserById = async (req, res) => {
+  try {
+    // Find user by id and exclude the password field
+    const user = await User.findById(req.params.id).select('-password');
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.json(user);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
