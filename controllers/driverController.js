@@ -174,3 +174,16 @@ exports.getDriverById = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+exports.getAcceptedRequests = async (req, res) => {
+  try {
+    // Assuming req.user.id is the driver's id set by your auth middleware.
+    const acceptedRequests = await Request.find({ 
+      driver: req.user.id, 
+      status: "accepted" 
+    }).populate("user", "_id name phone"); // populate user details
+    res.json(acceptedRequests);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
