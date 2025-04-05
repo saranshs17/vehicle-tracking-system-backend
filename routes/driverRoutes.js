@@ -18,6 +18,6 @@ router.put('/requests/:id/board', authMiddleware.verifyToken, driverController.b
 router.put('/requests/:id/reach', authMiddleware.verifyToken, driverController.reachRequest);
 router.get('/acceptedRequests', authMiddleware.verifyToken, driverController.getAcceptedRequests);
 router.get('/:id', driverController.getDriverById);
-
+router.put('/request/board', authMiddleware.verifyToken, driverController.boardUserRequest);
 
 module.exports = router;

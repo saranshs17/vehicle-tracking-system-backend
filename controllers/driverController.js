@@ -187,3 +187,31 @@ exports.getAcceptedRequests = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+exports.boardUserRequest = async (req, res) => {
+  try {
+    // Get user id from query parameters.
+    const { userId } = req.query;
+    // Get driver's id from the authentication middleware.
+    const driverId = req.user.id;
+
+    // Find and update the request where driver and user match and status is "accepted".
+    const updatedRequest = await Request.findOneAndUpdate(
+      { 
+        user: userId.toString(), 
+        driver: driverId.toString(), 
+        status: "accepted" 
+      },
+      { status: "boarded" },
+      { new: true }
+    );
+
+    if (!updatedRequest) {
+      return res.status(404).json({ message: "No accepted request found for this user." });
+    }
+
+    res.json({ message: "Request updated to boarded.", request: updatedRequest });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
