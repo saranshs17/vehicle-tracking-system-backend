@@ -7,6 +7,7 @@ const connectDB = require('./config/db');
 const adminRoutes = require('./routes/adminRoutes');
 const driverRoutes = require('./routes/driverRoutes');
 const userRoutes = require('./routes/userRoutes');
+const requestRoutes = require('./routes/requestRoutes');
 
 const app = express();
 
@@ -21,6 +22,7 @@ connectDB();
 app.use('/api/admin', adminRoutes);
 app.use('/api/driver', driverRoutes);
 app.use('/api/user', userRoutes);
+app.use('/api/user/request', requestRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
